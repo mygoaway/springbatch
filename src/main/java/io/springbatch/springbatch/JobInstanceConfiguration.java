@@ -14,42 +14,37 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class DbJobConfiguration {
+public class JobInstanceConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
     public Job job() {
-        return jobBuilderFactory.get("job")
-                .start(step1())
-                .next(step2())
+        return jobBuilderFactory.get("jobInstance")
+                .start(jobInstanceStep1())
+                .next(jobInstanceStep2())
                 .build();
     }
 
     @Bean
-    public Step step1() {
-        return stepBuilderFactory.get("step1")
+    public Step jobInstanceStep1() {
+        return stepBuilderFactory.get("jobInstanceStep1")
                 .tasklet(new Tasklet() {
                     @Override
-                    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                        System.out.println("========================");
-                        System.out.println(" >> Hello Spring Batch!!");
-                        System.out.println("========================");
+                    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
                         return RepeatStatus.FINISHED;
                     }
                 })
                 .build();
+
     }
 
     @Bean
-    public Step step2() {
-        return stepBuilderFactory.get("step2")
+    public Step jobInstanceStep2() {
+        return stepBuilderFactory.get("jobInstanceStep2")
                 .tasklet(new Tasklet() {
                     @Override
-                    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                        System.out.println("========================");
-                        System.out.println(" >> step2 was executed ");
-                        System.out.println("========================");
+                    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
                         return RepeatStatus.FINISHED;
                     }
                 })

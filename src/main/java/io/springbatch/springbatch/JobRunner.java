@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @RequiredArgsConstructor
-@Component
+// @Component
 public class JobRunner implements ApplicationRunner {
     private final JobLauncher jobLauncher;
     private final Job job;

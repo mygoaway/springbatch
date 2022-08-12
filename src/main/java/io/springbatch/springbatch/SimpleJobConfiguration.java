@@ -17,12 +17,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class SimpleJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
+    /*
     @Bean
     public Job job() {
         return jobBuilderFactory.get("batchJob")
@@ -99,4 +100,5 @@ public class SimpleJobConfiguration {
                 .tasklet(new CustomTasklet())
                 .build();
     }
+    */
 }

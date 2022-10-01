@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Date;
 import java.util.Map;
 
-// @Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class JobInstanceConfiguration {
     private final JobBuilderFactory jobBuilderFactory;

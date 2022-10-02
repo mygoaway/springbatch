@@ -21,12 +21,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class ChunkConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-
+    /*
     @Bean
     public Job job() {
         return jobBuilderFactory.get("batchJob")
@@ -70,4 +70,5 @@ public class ChunkConfiguration {
                 })
                 .build();
     }
+    */
 }

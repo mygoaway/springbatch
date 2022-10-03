@@ -5,13 +5,16 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @Entity
 public class Customer {
     @Id @GeneratedValue
     private Long id;
-    private String firstname;
-    private String lastname;
-    private String birthdate;
+    private String username;
+    private int age;
+
+    @OneToOne(mappedBy = "customer")
+    private Address address;
 }

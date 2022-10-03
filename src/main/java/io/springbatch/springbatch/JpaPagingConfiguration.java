@@ -7,19 +7,18 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
+import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
 //@Configuration
 @RequiredArgsConstructor
-public class JpaCursorConfiguration {
+public class JpaPagingConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
@@ -35,7 +34,7 @@ public class JpaCursorConfiguration {
     @Bean
     public Step step1() {
         return stepBuilderFactory.get("step1")
-                .<Customer, Customer>chunk(10)
+                .<Customer, Customer>chunk(2)
                 .reader(customItemReader())
                 .writer(customItemWriter())
                 .build();
@@ -43,26 +42,29 @@ public class JpaCursorConfiguration {
     }
 
     @Bean
-    public ItemReader<Customer> customItemReader() {
+    public ItemReader<? extends Customer> customItemReader() {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("firstname", "A%");
 
 
-        return new JpaCursorItemReaderBuilder<Customer>()
+        return new JpaPagingItemReaderBuilder<Customer>()
                 .name("jpaCursorItemReader")
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select c from Customer c where firstname like :firstname")
-                .parameterValues(parameters)
+                .pageSize(2)
+                .queryString("select c from Customer c join fetch c.address")
+                //.parameterValues(parameters)
                 .build();
     }
 
     @Bean
     public ItemWriter<? super Customer> customItemWriter() {
         return items -> {
-            for(Customer item : items) {
-                System.out.println(item.toString());
+            System.out.println("itemWriter 호출됨");
+            for(Customer customer : items) {
+                System.out.println(customer.getAddress().getLocation());
             }
         };
     }
     */
+
 }
